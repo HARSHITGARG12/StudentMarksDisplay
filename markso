@@ -1,0 +1,136 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE "django_admin_log" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "action_time" datetime NOT NULL,
+    "user_id" integer NOT NULL,
+    "content_type_id" integer,
+    "object_id" text,
+    "object_repr" varchar(200) NOT NULL,
+    "action_flag" smallint unsigned NOT NULL,
+    "change_message" text NOT NULL
+);
+INSERT INTO "django_admin_log" VALUES(1,'2014-05-02 00:40:18.152683',1,7,'16','SURDAS 100 100 100',1,'');
+INSERT INTO "django_admin_log" VALUES(2,'2014-05-02 00:40:35.041415',1,7,'17','PRADEEP 50 60 80',1,'');
+INSERT INTO "django_admin_log" VALUES(3,'2014-05-02 00:42:19.275063',1,7,'17','PRADEEP 50 60 80',2,'No fields changed.');
+INSERT INTO "django_admin_log" VALUES(4,'2014-05-02 00:42:19.579525',1,7,'17','PRADEEP 50 60 80',2,'No fields changed.');
+CREATE TABLE "auth_permission" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(50) NOT NULL,
+    "content_type_id" integer NOT NULL,
+    "codename" varchar(100) NOT NULL,
+    UNIQUE ("content_type_id", "codename")
+);
+INSERT INTO "auth_permission" VALUES(1,'Can add log entry',1,'add_logentry');
+INSERT INTO "auth_permission" VALUES(2,'Can change log entry',1,'change_logentry');
+INSERT INTO "auth_permission" VALUES(3,'Can delete log entry',1,'delete_logentry');
+INSERT INTO "auth_permission" VALUES(4,'Can add permission',2,'add_permission');
+INSERT INTO "auth_permission" VALUES(5,'Can change permission',2,'change_permission');
+INSERT INTO "auth_permission" VALUES(6,'Can delete permission',2,'delete_permission');
+INSERT INTO "auth_permission" VALUES(7,'Can add group',3,'add_group');
+INSERT INTO "auth_permission" VALUES(8,'Can change group',3,'change_group');
+INSERT INTO "auth_permission" VALUES(9,'Can delete group',3,'delete_group');
+INSERT INTO "auth_permission" VALUES(10,'Can add user',4,'add_user');
+INSERT INTO "auth_permission" VALUES(11,'Can change user',4,'change_user');
+INSERT INTO "auth_permission" VALUES(12,'Can delete user',4,'delete_user');
+INSERT INTO "auth_permission" VALUES(13,'Can add content type',5,'add_contenttype');
+INSERT INTO "auth_permission" VALUES(14,'Can change content type',5,'change_contenttype');
+INSERT INTO "auth_permission" VALUES(15,'Can delete content type',5,'delete_contenttype');
+INSERT INTO "auth_permission" VALUES(16,'Can add session',6,'add_session');
+INSERT INTO "auth_permission" VALUES(17,'Can change session',6,'change_session');
+INSERT INTO "auth_permission" VALUES(18,'Can delete session',6,'delete_session');
+INSERT INTO "auth_permission" VALUES(19,'Can add student',7,'add_student');
+INSERT INTO "auth_permission" VALUES(20,'Can change student',7,'change_student');
+INSERT INTO "auth_permission" VALUES(21,'Can delete student',7,'delete_student');
+CREATE TABLE "auth_group_permissions" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "group_id" integer NOT NULL,
+    "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id"),
+    UNIQUE ("group_id", "permission_id")
+);
+CREATE TABLE "auth_group" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(80) NOT NULL UNIQUE
+);
+CREATE TABLE "auth_user_groups" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL,
+    "group_id" integer NOT NULL REFERENCES "auth_group" ("id"),
+    UNIQUE ("user_id", "group_id")
+);
+CREATE TABLE "auth_user_user_permissions" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL,
+    "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id"),
+    UNIQUE ("user_id", "permission_id")
+);
+CREATE TABLE "auth_user" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "password" varchar(128) NOT NULL,
+    "last_login" datetime NOT NULL,
+    "is_superuser" bool NOT NULL,
+    "username" varchar(30) NOT NULL UNIQUE,
+    "first_name" varchar(30) NOT NULL,
+    "last_name" varchar(30) NOT NULL,
+    "email" varchar(75) NOT NULL,
+    "is_staff" bool NOT NULL,
+    "is_active" bool NOT NULL,
+    "date_joined" datetime NOT NULL
+);
+INSERT INTO "auth_user" VALUES(1,'pbkdf2_sha256$12000$oXrRDBiworzr$GvVY4D0VOF5ImzkkZNx8BwRlPHyPAG/y39nZSuhYTLo=','2014-05-02 00:36:31.730950',1,'marks','','','harshitgargmnit@gmail.com',1,1,'2014-05-01 02:09:26.041200');
+CREATE TABLE "django_content_type" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(100) NOT NULL,
+    "app_label" varchar(100) NOT NULL,
+    "model" varchar(100) NOT NULL,
+    UNIQUE ("app_label", "model")
+);
+INSERT INTO "django_content_type" VALUES(1,'log entry','admin','logentry');
+INSERT INTO "django_content_type" VALUES(2,'permission','auth','permission');
+INSERT INTO "django_content_type" VALUES(3,'group','auth','group');
+INSERT INTO "django_content_type" VALUES(4,'user','auth','user');
+INSERT INTO "django_content_type" VALUES(5,'content type','contenttypes','contenttype');
+INSERT INTO "django_content_type" VALUES(6,'session','sessions','session');
+INSERT INTO "django_content_type" VALUES(7,'student','markslist','student');
+CREATE TABLE "django_session" (
+    "session_key" varchar(40) NOT NULL PRIMARY KEY,
+    "session_data" text NOT NULL,
+    "expire_date" datetime NOT NULL
+);
+INSERT INTO "django_session" VALUES('m4hpboegu91q8ewbtibuofcx0af13c1b','YWVhOTk2NTA2ZmE3ZDljOTFhYjlhMWExYjBhNTVlNzdlYzI2MjNiYTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=','2014-05-15 02:30:10.438004');
+INSERT INTO "django_session" VALUES('t8jxky6r9j7ywvm9u2p1hf0mrese0ov6','OTAyMjVjMWIzMjNkNzBmM2ViZDQyZmNjM2RjNTdhMGE4MWY2MDViOTp7fQ==','2014-05-17 02:40:57.967183');
+CREATE TABLE "markslist_student" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "Student_Name" varchar(200) NOT NULL,
+    "Physics" integer NOT NULL,
+    "Chemistry" integer NOT NULL,
+    "Mathematics" integer NOT NULL
+);
+INSERT INTO "markslist_student" VALUES(1,'RAM',80,90,100);
+INSERT INTO "markslist_student" VALUES(2,'RAHIM',85,96,100);
+INSERT INTO "markslist_student" VALUES(3,'SITA',85,96,100);
+INSERT INTO "markslist_student" VALUES(4,'GEETA',85,96,100);
+INSERT INTO "markslist_student" VALUES(5,'ROHAN',85,96,100);
+INSERT INTO "markslist_student" VALUES(6,'MOHAN',85,96,100);
+INSERT INTO "markslist_student" VALUES(7,'KABIR',85,96,100);
+INSERT INTO "markslist_student" VALUES(8,'RASKHAN',85,96,100);
+INSERT INTO "markslist_student" VALUES(9,'MEERA',85,96,100);
+INSERT INTO "markslist_student" VALUES(10,'RADSHA',85,96,100);
+INSERT INTO "markslist_student" VALUES(11,'DEVI PRASAD',75,60,70);
+INSERT INTO "markslist_student" VALUES(12,'GURU BHAI',69,75,100);
+INSERT INTO "markslist_student" VALUES(13,'KARIM',85,96,100);
+INSERT INTO "markslist_student" VALUES(14,'PRATAP',100,100,100);
+INSERT INTO "markslist_student" VALUES(15,'UDAI SING',85,96,100);
+INSERT INTO "markslist_student" VALUES(16,'SURDAS',100,100,100);
+INSERT INTO "markslist_student" VALUES(17,'PRADEEP',50,60,80);
+CREATE INDEX "django_admin_log_6340c63c" ON "django_admin_log" ("user_id");
+CREATE INDEX "django_admin_log_37ef4eb4" ON "django_admin_log" ("content_type_id");
+CREATE INDEX "auth_permission_37ef4eb4" ON "auth_permission" ("content_type_id");
+CREATE INDEX "auth_group_permissions_5f412f9a" ON "auth_group_permissions" ("group_id");
+CREATE INDEX "auth_group_permissions_83d7f98b" ON "auth_group_permissions" ("permission_id");
+CREATE INDEX "auth_user_groups_6340c63c" ON "auth_user_groups" ("user_id");
+CREATE INDEX "auth_user_groups_5f412f9a" ON "auth_user_groups" ("group_id");
+CREATE INDEX "auth_user_user_permissions_6340c63c" ON "auth_user_user_permissions" ("user_id");
+CREATE INDEX "auth_user_user_permissions_83d7f98b" ON "auth_user_user_permissions" ("permission_id");
+CREATE INDEX "django_session_b7b81f0c" ON "django_session" ("expire_date");
+COMMIT;

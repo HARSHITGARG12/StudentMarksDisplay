@@ -1,0 +1,80 @@
+<html>
+<title>Marks of Class XII</title>
+
+
+
+<head>
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'stud/style.css' %}" />
+
+<style type=”text/css”>
+ body {
+ font: 12px sans-serif;
+ background-color: green;
+ }
+ h1 {
+ font-family: ‘Times New Roman’, Times, serif;
+ }
+ </style>
+</head>
+
+<body>
+<center><h1 background = "red">Welcome to ABC Class</h1><center/>
+<br/>
+
+<center>The results of the final exams are :<center/>
+<br/>
+
+{% if latest_poll_list %}
+<center>
+	<table>
+	<caption>Final Exam Result XII Science</caption>
+  	<tr>
+    	<th>Name</th>
+    	<th>Physics</th>
+    	<th>Chemistry</th>
+    	<th>Mathematics</th>
+  	</tr>
+  {% for poll in latest_poll_list %}
+    	
+    	<tr>
+    	<td>{{ poll.Name }}</td>
+    	<td>{{ poll.Physics }}</td>
+    	<td>{{ poll.Chemistry }}</td>
+    	<td>{{ poll.Mathematics }}</td>
+  		</tr>
+        
+    {% endfor %}
+  
+</table>
+</cener>
+
+    {% else %}
+    <p>No students are enrolled here.</p>
+{% endif %}
+<br/><br/><br/>
+<div>
+
+	
+<form method="post" action="{% url 'stud:hd' stud.id %}">
+{% csrf_token %}
+	<div>
+ <label for="choice">Select Your Choice</label>
+ 
+ </div>
+ <select>
+  <option value="phy">Pysics</option>
+  <option value="chem">Chemistry</option>
+  <option value="math">Mathematics</option>
+  
+</select>
+
+ 
+ <input type="button" value="Ok">
+ 
+ </form>
+  
+ </div>
+</body>
+</html>

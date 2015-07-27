@@ -1,0 +1,13 @@
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+	Name = models.CharField(max_length=30)
+	Physics = models.IntegerField(default=0)
+	Chemistry = models.IntegerField(default=0)
+	Mathematics = models.IntegerField(default=0)
+	
+	def __unicode__(self):
+		ans = self.Name #+ ' ' +  repr(self.Physics) + ' ' + repr(self.Chemistry) + ' ' + repr(self.Mathematics) 
+		return self.Name

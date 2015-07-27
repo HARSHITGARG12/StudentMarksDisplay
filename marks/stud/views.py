@@ -1,0 +1,186 @@
+from django.shortcuts import render
+
+from django.shortcuts import *
+from django.http import HttpResponse
+from chartit import DataPool, Chart
+from stud.models import *
+from django.template import RequestContext, loader
+from matplotlib import pylab
+from pylab import *
+import PIL
+import PIL.Image
+import StringIO
+from django.template import *
+from chartit import DataPool, Chart
+from django.template import RequestContext, loader
+from pygal import *
+
+import pygal
+from pygal.util import compute_scale
+from pygal.style import LightStyle
+from math import cos
+import MySQLdb
+# Create your views here.
+
+def index(request):
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	return render(request, 'stud/result.html', context)
+	#return HttpResponse("Hello, world. You're viewing student marks.")
+    
+
+def line(request):
+	line_chart = pygal.Line()
+	line_chart.title = 'Browser usage evolution (in %)'
+	line_chart.x_labels = map(str, range(2002, 2013))
+	line_chart.add('Firefox', [None, None, 0, 16.6,   25,   31, 36.4, 45.5, 46.3, 42.8, 37.1])
+	line_chart.add('Chrome',  [None, None, None, None, None, None,    0,  3.9, 10.8, 23.8, 35.3])
+	line_chart.add('IE',      [85.8, 84.6, 84.7, 74.5,   66, 58.6, 54.7, 44.8, 36.2, 26.6, 20.1])
+	line_chart.add('Others',  [14.2, 15.4, 15.3,  8.9,    9, 10.4,  8.9,  5.8,  6.7,  6.8,  7.5])
+	line_chart.render()
+	return HttpResponse(line_chart.render())
+	
+def display(request):
+	line_chart = pygal.Bar()
+	line_chart.title = 'Result of Class XII'
+	line_chart.x_labels = map(str, range(1, 17))
+	math = []
+	phy = []
+	chem = []
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	for a in slist:
+		#k = Student.objects.get(id=a)
+		math.append(a.Mathematics)
+		chem.append(a.Chemistry)
+		phy.append(a.Physics)
+	
+	line_chart.add('Mathematics', math)
+	line_chart.add('Physics', phy)
+	line_chart.add('Chemistry', chem)
+	
+	return HttpResponse(line_chart.render())
+	
+def displayPhysics(request):
+	'''
+	line_chart = pygal.Bar()
+	line_chart.title = 'Browser usage evolution (in %)'
+	line_chart.x_labels = map(str, range(2002, 2013))
+	line_chart.add('Firefox', [None, None, 0, 16.6,   25,   31, 36.4, 45.5, 46.3, 42.8, 37.1])
+	line_chart.add('Chrome',  [None, None, None, None, None, None,    0,  3.9, 10.8, 23.8, 35.3])
+	line_chart.add('IE',      [85.8, 84.6, 84.7, 74.5,   66, 58.6, 54.7, 44.8, 36.2, 26.6, 20.1])
+	line_chart.add('Others',  [14.2, 15.4, 15.3,  8.9,    9, 10.4,  8.9,  5.8,  6.7,  6.8,  7.5])
+	line_chart.render()
+	return HttpResponse(line_chart.render())
+	'''
+	'''
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	
+	return render(request, 'stud/result.html', context)
+	'''
+	line_chart = pygal.Bar()
+	line_chart.title = 'Result of Class XII'
+	line_chart.x_labels = map(str, range(1, 17))
+	math = []
+	phy = []
+	chem = []
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	for a in slist:
+		#k = Student.objects.get(id=a)
+		phy.append(a.Physics)
+	
+	
+	line_chart.add('Physics', phy)
+	return HttpResponse(line_chart.render())
+	
+def displayChemistry(request):
+	'''
+	line_chart = pygal.Bar()
+	line_chart.title = 'Browser usage evolution (in %)'
+	line_chart.x_labels = map(str, range(2002, 2013))
+	line_chart.add('Firefox', [None, None, 0, 16.6,   25,   31, 36.4, 45.5, 46.3, 42.8, 37.1])
+	line_chart.add('Chrome',  [None, None, None, None, None, None,    0,  3.9, 10.8, 23.8, 35.3])
+	line_chart.add('IE',      [85.8, 84.6, 84.7, 74.5,   66, 58.6, 54.7, 44.8, 36.2, 26.6, 20.1])
+	line_chart.add('Others',  [14.2, 15.4, 15.3,  8.9,    9, 10.4,  8.9,  5.8,  6.7,  6.8,  7.5])
+	line_chart.render()
+	return HttpResponse(line_chart.render())
+	'''
+	'''
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	
+	return render(request, 'stud/result.html', context)
+	'''
+	line_chart = pygal.Bar()
+	line_chart.title = 'Result of Class XII'
+	line_chart.x_labels = map(str, range(1, 17))
+	chem = []
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	for a in slist:
+		#k = Student.objects.get(id=a)
+		chem.append(a.Chemistry)
+	
+	
+	line_chart.add('Chemistry', chem)
+	return HttpResponse(line_chart.render())
+
+def displayMathematics(request):
+	'''
+	line_chart = pygal.Bar()
+	line_chart.title = 'Browser usage evolution (in %)'
+	line_chart.x_labels = map(str, range(2002, 2013))
+	line_chart.add('Firefox', [None, None, 0, 16.6,   25,   31, 36.4, 45.5, 46.3, 42.8, 37.1])
+	line_chart.add('Chrome',  [None, None, None, None, None, None,    0,  3.9, 10.8, 23.8, 35.3])
+	line_chart.add('IE',      [85.8, 84.6, 84.7, 74.5,   66, 58.6, 54.7, 44.8, 36.2, 26.6, 20.1])
+	line_chart.add('Others',  [14.2, 15.4, 15.3,  8.9,    9, 10.4,  8.9,  5.8,  6.7,  6.8,  7.5])
+	line_chart.render()
+	return HttpResponse(line_chart.render())
+	'''
+	'''
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	
+	return render(request, 'stud/result.html', context)
+	'''
+	line_chart = pygal.Bar()
+	line_chart.title = 'Result of Class XII'
+	line_chart.x_labels = map(str, range(1, 17))
+	math = []
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	for a in slist:
+		#k = Student.objects.get(id=a)
+		math.append(a.Mathematics)
+	
+	
+	line_chart.add('Mathematics', math)
+
+	
+	return HttpResponse(line_chart.render())
+		
+def total(request):
+	line_chart = pygal.Bar()
+	line_chart.title = 'Result of Class XII'
+	#line_chart.x_labels = map(str, range(1, 4))
+	math = []
+	phy = []
+	chem = []
+	
+	summ = 0
+	sump = 0
+	sumc = 0
+	slist = Student.objects.all();context = {'latest_poll_list': slist};
+	for a in slist:
+		#k = Student.objects.get(id=a)
+		summ = summ + a.Mathematics
+		sumc = sumc + a.Chemistry
+		sump = sump + a.Physics
+	a = []
+	a.append(summ)
+	b = []
+	b.append(sump)
+	c = []
+	c.append(sumc)	
+	line_chart.add('Mathematics', a)
+	line_chart.add('Physics', b)
+	line_chart.add('Chemistry', c)
+	return HttpResponse(line_chart.render())
+	
+def hd(request):
+	
+	return HttpResponse("Hello, world. You're viewing student marks.")
